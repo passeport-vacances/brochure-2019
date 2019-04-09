@@ -1,0 +1,83 @@
+%# Macro for category header
+\BLOCK{macro category_header(c)}
+\chapter{\VAR{c.name|escape_tex}}
+\BLOCK{endmacro}
+
+%# Macro for activity_detail
+\BLOCK{macro activity_detail(a)}
+\setlength{\currentparskip}{\parskip}% save the value
+\begin{minipage}[t]{\textwidth}%
+\setlength{\parskip}{\currentparskip}% restore the value
+
+%\setlength{\parskip}{2mm}
+\section{\VAR{a.name|escape_tex}}\label{act\VAR{a.id}}
+\VAR{a.description|escape_tex}
+
+\begin{tcolorbox}
+    \begin{tabulary}{0.9\textwidth}{p{2.5cm}|L}
+        \BLOCK{if a.attributes.meeting_point}
+        \BLOCK{if a.attributes.language == "DE"}Treffpunkt\BLOCK{else}Rendez-vous\BLOCK{endif} &
+        \VAR{a.attributes.meeting_point|escape_tex|cell_break} \\
+        \BLOCK{endif}
+        \BLOCK{if a.attributes.bus_stop}
+        \BLOCK{if a.attributes.language == "DE"}TPF Bus\BLOCK{else}Bus TPF\BLOCK{endif} &
+        \VAR{a.attributes.bus_stop|escape_tex|cell_break} \\
+        \BLOCK{endif}
+        \BLOCK{if a.attributes.age_s}
+        \BLOCK{if a.attributes.language == "DE"}Alter\BLOCK{else}Age\BLOCK{endif} &
+        \VAR{a.attributes.age_s|escape_tex|cell_break}
+        \BLOCK{if a.attributes.language == "DE"}Jahre\BLOCK{else}ans\BLOCK{endif} \\
+        \BLOCK{else}
+        \BLOCK{if a.attributes.language == "DE"}Alter\BLOCK{else}Age\BLOCK{endif} &
+        \BLOCK{if a.attributes.language == "DE"}keine Einschränkung (6-16 Jahre)\BLOCK{else}pas de limite (6-16 ans)\BLOCK{endif} \\
+        \BLOCK{endif}
+    \end{tabulary}
+\end{tcolorbox}
+
+\BLOCK{if a.attributes.important}
+\textbf{%
+\BLOCK{if a.attributes.language == "DE"}Wichtig: \BLOCK{else}Important: \BLOCK{endif}
+\VAR{a.attributes.important|escape_tex|line_break}}
+\BLOCK{endif}
+\medskip
+
+\BLOCK{if not a.attributes.all_pass_s}
+\begin{tcolorbox}[title=Date et heure]
+\begin{itemize}[leftmargin=6mm]
+\BLOCK{for g in a.groups}
+\item \BLOCK{if a.attributes.language == "DE"}\VAR{g.date_de}\BLOCK{else}\VAR{g.date_fr}\BLOCK{endif}
+\BLOCK{if g.attributes.minimum_attendees and g.attributes.minimum_attendees|int > 0 and g.max_quota > 0}
+\BLOCK{if a.attributes.language == "DE"}
+ (Minumum \VAR{g.attributes.minimum_attendees}, Maximum \VAR{g.max_quota} Kinder)
+\BLOCK{else}
+ (minimum \VAR{g.attributes.minimum_attendees}, maximum \VAR{g.max_quota} enfants)
+\BLOCK{endif}
+\BLOCK{elif g.max_quota > 0}
+\BLOCK{if a.attributes.language == "DE"}
+ (Maximum \VAR{g.max_quota} Kinder)
+\BLOCK{else}
+ (maximum \VAR{g.max_quota} enfants)
+\BLOCK{endif}
+\BLOCK{elif g.attributes.minimum_attendees and g.attributes.minimum_attendees|int > 0}
+\BLOCK{if a.attributes.language == "DE"}
+ (Minumum \VAR{g.attributes.minimum_attendees} Kinder)
+\BLOCK{else}
+ (minimum \VAR{g.attributes.minimum_attendees} enfants)
+\BLOCK{endif}
+\BLOCK{endif}
+\BLOCK{endfor}%# groups
+\end{itemize}
+\end{tcolorbox}
+\BLOCK{endif}
+\end{minipage}
+\bigskip
+\BLOCK{endmacro}
+
+%# Main
+\BLOCK{for category in categories if not category.name == "DUMMY"}
+\VAR{category_header(category)}
+\BLOCK{for activity in category.activities}
+\BLOCK{if opts.one_per_page}\newpage\BLOCK{endif}
+\VAR{activity_detail(activity)}
+\BLOCK{endfor}%# activity
+\BLOCK{endfor}%# category

@@ -1,0 +1,11 @@
+edition: "42\\ieme{}"
+year: "2019"
+start: ["8 juillet", "8. Juli"]
+end: ["4 août", "4. August"]
+cloture: ["vendredi 2 août"]
+inscription:
+  start: ["29 mai"]
+  end: ["21 juin"]
+final_program: ["1\\ier{} juillet"]
+equilibre: ["samedi 15 juin de 9h30 à 16h00"]
+patinoire: ["les samedis 3, 10 et 17 août"]

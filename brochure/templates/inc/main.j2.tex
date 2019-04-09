@@ -1,0 +1,77 @@
+\usepackage[nohead, textwidth=16.5cm, textheight=23.5cm, ignorehead, paper=a4paper]{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage[french]{babel}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage{tabulary}
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{etoolbox}
+\usepackage{pifont}
+\usepackage{intcalc}
+\usepackage{csquotes}
+\usepackage[absolute]{textpos}
+%\usepackage[printwatermark]{xwatermark}
+\usepackage[printwatermark]{xwatermark}
+
+
+%\AtBeginDocument{\def\labelitemi{$\bullet$}}
+\AtBeginDocument{\def\labelitemi{$\bullet$}}
+\setmainfont{EB Garamond}
+\newfontfamily\lobster{Lobster}
+\newfontfamily\indieflower{Indie Flower}
+\newfontfamily\stamp{Top Secret Stamp}
+\setkomafont{disposition}{\lobster}
+\setkomafont{descriptionlabel}{\bfseries}
+\renewcommand\thepart{\Alph{part}}
+
+
+\renewcommand{\leftmark}{}
+\renewcommand{\rightmark}{}
+
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+
+\hypersetup{
+    pdftitle={Passeport vacances Fribourg \VAR{meta.year}},
+    pdfauthor={Jacques Supcik},
+    bookmarks=true,
+}
+
+\newlength{\currentparskip}
+\raggedbottom
+
+\BLOCK{if opts.draft}
+\newsavebox\mybox
+\savebox\mybox{\tikz[color=red,opacity=0.3]\node{\stamp Version provisoire};}
+\newwatermark*[
+  allpages,
+  angle=45,
+  scale=8,
+  xpos=-20,
+  ypos=15
+]{\usebox\mybox}
+\BLOCK{endif}
+
+
+\begin{document}
+\frontmatter
+\input{inc/title}
+\clearpage
+\input{inc/front}
+\cleardoublepage
+\tableofcontents
+\cleardoublepage
+
+\mainmatter
+\part{Informations générales}
+\BLOCK{if not opts.no_intro}\input{inc/intro}\BLOCK{endif}
+\BLOCK{if not opts.no_pub}\input{inc/pub}\BLOCK{endif}
+
+\part{Activités}
+\input{inc/activities}
+\BLOCK{if not opts.no_pub}\input{inc/back}\BLOCK{endif}
+\end{document}

@@ -1,0 +1,24 @@
+multiple_user_attributes:
+  gender: "Fille ou garçon ?"
+  age: "Âge révolu au"
+  all_pass: "Attribut pour cacher"
+
+activity_attributes:
+  meeting_point: "Rendez-vous"
+  important: "Important"
+  bus_stop: "Bus TPF"
+  assistants: "Accompagnants"
+  participants_list_to_name: "Liste de présence à"
+  participants_list_to_email: "E-mail envoi liste participants"
+  cost: "Coût"
+  organizer_name: "Organisateur"
+  organizer_address: "Adresse organisateur"
+  organizer_phone: "Tel organisateur"
+  organizer_email: "E-mail organisateur"
+  internal_note: "Note interne"
+  driver_note: "Note chauffeur"
+  language: "Langue"
+
+group_attributes:
+  schedule: "Horaire"
+  minimum_attendees: "Nombre minimum souhaité"
