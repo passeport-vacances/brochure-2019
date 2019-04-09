@@ -60,3 +60,7 @@ def bons_a_tirer():
         'success': True,
         'url': url
     })
+
+
+if __name__ == '__main__':
+    app.run()
