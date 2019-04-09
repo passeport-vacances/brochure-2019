@@ -1,19 +1,25 @@
-#  Copyright 2019 Jacques Supcik
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-#
+'''
+Copyright 2019 Jacques Supcik
 
-""" Generate a brochure """
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+-----------------------------------------------------------------------------
+Purpose: Generator for the brochure
+Filename: brochure/__init__.py
+Created Date: 2019-03-31
+Author: Jacques Supcik
+-----------------------------------------------------------------------------
+'''
 
 import dataclasses
 import datetime
@@ -26,6 +32,7 @@ import shutil
 import subprocess
 import tempfile
 
+import jinja2
 import records
 import yaml
 
@@ -57,32 +64,39 @@ def dump_data(data):
     print(json.dumps(data, cls=EnhancedJSONEncoder, indent=2))
 
 
-def get_data(db_url, config_file="config.yml"):
+def get_data(db_url):
     """ Returns data from the database """
     logger.debug("Reading data from groople")
     db = records.Database(db_url)
+    config_file = pathlib.Path(pathlib.Path(__file__).parent, "config.yml")
     config = yaml.load(open(config_file, 'r'), Loader=Loader)
     return groople.get_all_activities(db, config)
 
 
-def gen_brochure(dest_file, data, template_dir="templates", meta_file="meta.yml", main="brochure"):
+def gen_brochure(dest_file, data, main="brochure"):
     """ Generates the brochure """
     # pylint: disable=too-many-locals
     logger.debug("generate brochure")
+    meta_file = pathlib.Path(pathlib.Path(__file__).parent, "meta.yml")
     meta = yaml.load(open(meta_file, 'r'), Loader=Loader)
-    dest_dir = tempfile.mkdtemp(dir=pathlib.Path(pathlib.Path.cwd(), "out"), prefix="brochure-")
+
+    template_dir = pathlib.Path(pathlib.Path(__file__).parent, "templates")
+    dest_dir = tempfile.mkdtemp(prefix="brochure-")
     logger.debug("Output directory : %s", dest_dir)
     # agenda = groople.activities_to_agenda(data)
 
-    env = j2latex.latex_env()
+    env = j2latex.latex_env(jinja2.FileSystemLoader("/"))
     for root, _, files in os.walk(template_dir):
         for f in files:
             m = re.match(r'(.*)\.j2\.(.*)', f)
             if m:  # parse jinja2 template
                 logger.debug("* Rendering %s", f)
                 src = pathlib.Path(root, f)
+                logger.debug("*** Source : %s", src)
                 dst = pathlib.Path(root, '.'.join([m.group(1), m.group(2)]))
                 dst = pathlib.Path(dest_dir, dst.relative_to(template_dir))
+                logger.debug("*** Destination : %s", dst)
+
                 dst.parent.mkdir(exist_ok=True, parents=True)
 
                 template = env.get_template(str(src))

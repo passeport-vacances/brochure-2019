@@ -1,19 +1,25 @@
-#  Copyright 2019 Jacques Supcik
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-#
+'''
+Copyright 2019 Jacques Supcik
 
-""" The groople module contains code to deal with the Groople Database """
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+-----------------------------------------------------------------------------
+Purpose: The groople module contains code to deal with the Groople Database
+Filename: groople/__init__.py
+Created Date: 2019-03-31
+Author: Jacques Supcik
+-----------------------------------------------------------------------------
+'''
 
 import re
 
@@ -23,8 +29,6 @@ from .group import Group
 
 
 # pylint: disable=invalid-name
-
-
 def get_attribute_map(db, table, config):
     """ Returns the attribute map """
     attr_id = dict()
