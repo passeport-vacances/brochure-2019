@@ -39,9 +39,11 @@ setup(
     use_scm_version=True,
     setup_requires=['setuptools_scm'],
     install_requires=[
+        'jinja2',
+        'records',
+        'PyYAML',
         'Click',
         'Flask',
-        'jinja2',
         'py3wetransfer'
     ],
     entry_points='''
