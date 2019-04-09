@@ -40,6 +40,7 @@ setup(
     setup_requires=['setuptools_scm'],
     install_requires=[
         'jinja2',
+        'PyMySQL',
         'records',
         'PyYAML',
         'Click',
