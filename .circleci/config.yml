@@ -1,7 +1,7 @@
 version: 2.1
 
 workflows:
-  test_and_deploy:
+  test:
     jobs:
       - test
 
@@ -13,6 +13,5 @@ jobs:
     steps:
       - checkout
       - run: |
-          cd app
           pip install --user --no-warn-script-location -r requirements.txt
           /home/circleci/.local/bin/pylint groople brochure j2latex *.py
