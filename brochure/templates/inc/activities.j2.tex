@@ -52,7 +52,7 @@
 \BLOCK{else}
  (minimum \VAR{g.attributes.minimum_attendees}, maximum \VAR{g.max_quota} enfants)
 \BLOCK{endif}
-\BLOCK{elif g.max_quota > 0}
+\BLOCK{elif g.max_quota is not none and g.max_quota > 0}
 \BLOCK{if a.attributes.language == "DE"}
  (Maximum \VAR{g.max_quota} Kinder)
 \BLOCK{else}
