@@ -30,7 +30,7 @@ pyflakes==2.1.1
 pylint==2.3.1
 PyMySQL==0.9.3
 python-magic==0.4.15
-PyYAML==5.1
+PyYAML==5.4
 radon==3.0.1
 records==0.5.3
 requests==2.21.0
